@@ -22,6 +22,13 @@ import { WeeklyHabitMatrix } from './components/WeeklyHabitMatrix';
 import { AnnualHeatmap } from './components/AnnualHeatmap';
 import { NewHabitModal } from './components/NewHabitModal';
 
+export function formatLocalDate(d: Date = new Date()): string {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 function DashboardContent() {
   const queryClient = useQueryClient();
   const [theme, setTheme] = useState<Theme>(() => {
@@ -29,9 +36,7 @@ function DashboardContent() {
     return saved === 'latte' ? 'latte' : 'mocha';
   });
 
-  const [referenceDate, setReferenceDate] = useState<string>(() => {
-    return new Date().toISOString().slice(0, 10);
-  });
+  const [referenceDate, setReferenceDate] = useState<string>(() => formatLocalDate());
 
   const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null);
   const [isNewHabitModalOpen, setIsNewHabitModalOpen] = useState(false);

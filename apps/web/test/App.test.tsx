@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from '../src/App';
+import App, { formatLocalDate } from '../src/App';
 import * as apiClient from '../src/api/client';
 import type { DashboardResponse, HeatmapResponse, HabitDashboardItem } from '../src/api/client';
 
@@ -258,5 +258,15 @@ describe('HabitPulse Web App', () => {
     await waitFor(() => {
       expect(apiClient.deleteHabit).toHaveBeenCalledWith(mockHabit1.id);
     });
+  });
+
+  it('formats local calendar dates without UTC timestamp conversion shifts', () => {
+    // Nov 11, 2026 late night (23:45) - in timezones ahead of UTC, toISOString would produce Nov 12
+    const lateNightDate = new Date(2026, 10, 11, 23, 45, 0);
+    expect(formatLocalDate(lateNightDate)).toBe('2026-11-11');
+
+    // Nov 11, 2026 early morning (00:15) - in timezones behind UTC, toISOString would produce Nov 10
+    const earlyMorningDate = new Date(2026, 10, 11, 0, 15, 0);
+    expect(formatLocalDate(earlyMorningDate)).toBe('2026-11-11');
   });
 });
