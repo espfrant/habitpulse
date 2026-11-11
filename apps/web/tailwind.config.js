@@ -1,0 +1,40 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        base: 'var(--ctp-base)',
+        mantle: 'var(--ctp-mantle)',
+        crust: 'var(--ctp-crust)',
+        surface0: 'var(--ctp-surface0)',
+        surface1: 'var(--ctp-surface1)',
+        surface2: 'var(--ctp-surface2)',
+        overlay0: 'var(--ctp-overlay0)',
+        overlay1: 'var(--ctp-overlay1)',
+        text: 'var(--ctp-text)',
+        subtext0: 'var(--ctp-subtext0)',
+        subtext1: 'var(--ctp-subtext1)',
+        rosewater: 'var(--ctp-rosewater)',
+        flamingo: 'var(--ctp-flamingo)',
+        pink: 'var(--ctp-pink)',
+        mauve: 'var(--ctp-mauve)',
+        red: 'var(--ctp-red)',
+        maroon: 'var(--ctp-maroon)',
+        peach: 'var(--ctp-peach)',
+        yellow: 'var(--ctp-yellow)',
+        green: 'var(--ctp-green)',
+        teal: 'var(--ctp-teal)',
+        sky: 'var(--ctp-sky)',
+        sapphire: 'var(--ctp-sapphire)',
+        blue: 'var(--ctp-blue)',
+        lavender: 'var(--ctp-lavender)',
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+    },
+  },
+  plugins: [],
+};
