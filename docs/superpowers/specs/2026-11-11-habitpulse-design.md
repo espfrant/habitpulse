@@ -1,7 +1,7 @@
 # HabitPulse — Design Specification
 
 - **Date:** 2026-11-11
-- **Status:** Draft (Pending Approval)
+- **Status:** Approved
 - **Repository:** `/home/espfrant/Work/habitpulse`
 
 ---
