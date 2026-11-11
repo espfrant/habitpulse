@@ -147,4 +147,37 @@ describe('streak-calculator domain logic', () => {
     expect(grid[grid.length - 1]?.date).toBe('2026-11-11');
     expect(grid[0]?.date).toBe('2025-11-12');
   });
+
+  it('ignores future entries past referenceDate in weekly streak and completion rate', () => {
+    // Current week Mon 2026-11-09..Sun 2026-11-15
+    // referenceDate is Wednesday 2026-11-11
+    // Entries on 2026-11-09 (value 1), and future entries on 2026-11-12 (value 1), 2026-11-13 (value 1)
+    // frequencyCount: 3
+    // At referenceDate (Wed), only 1 completion has occurred. The future completions must NOT count as completed yet.
+    const stats = calculateHabitStats(
+      { trackingType: 'boolean', targetValue: 1, frequencyType: 'weekly', frequencyCount: 3 },
+      [
+        { entryDate: '2026-11-09', value: 1 },
+        { entryDate: '2026-11-12', value: 1 }, // future
+        { entryDate: '2026-11-13', value: 1 }, // future
+      ],
+      '2026-11-11',
+    );
+    // Since only 1 entry is <= referenceDate, current week is not completed yet (1 < 3)
+    expect(stats.totalCompletions).toBe(1);
+    expect(stats.currentStreak).toBe(0); // no previous completed week
+  });
+
+  it('coerces boolean targetValue to 1 and daily frequencyCount to 1', () => {
+    const stats = calculateHabitStats(
+      { trackingType: 'boolean', targetValue: 50, frequencyType: 'daily', frequencyCount: 5 },
+      [
+        { entryDate: '2026-11-11', value: 1 },
+      ],
+      '2026-11-11',
+    );
+    // If targetValue is coerced to 1, value: 1 is completed.
+    expect(stats.totalCompletions).toBe(1);
+    expect(stats.currentStreak).toBe(1);
+  });
 });

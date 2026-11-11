@@ -189,14 +189,22 @@ export function calculateHabitStats(
   entries: HabitEntryRecord[],
   referenceDate: string,
 ): HabitStats {
+  const normalizedHabit = {
+    ...habit,
+    targetValue: habit.trackingType === 'boolean' ? 1 : habit.targetValue,
+    frequencyCount: habit.frequencyType === 'daily' ? 1 : habit.frequencyCount,
+  };
+
   const entryMap = new Map<string, number>();
   for (const entry of entries) {
-    entryMap.set(entry.entryDate, entry.value);
+    if (entry.entryDate <= referenceDate) {
+      entryMap.set(entry.entryDate, entry.value);
+    }
   }
 
   let totalCompletions = 0;
   for (const [date, val] of entryMap.entries()) {
-    if (date <= referenceDate && isEntryCompleted(val, habit.targetValue)) {
+    if (isEntryCompleted(val, normalizedHabit.targetValue)) {
       totalCompletions++;
     }
   }
@@ -205,8 +213,8 @@ export function calculateHabitStats(
   let bestStreak = 0;
   let completionRate30d = 0;
 
-  if (habit.frequencyType === 'daily') {
-    const daily = computeDailyStats(habit.targetValue, entryMap, referenceDate);
+  if (normalizedHabit.frequencyType === 'daily') {
+    const daily = computeDailyStats(normalizedHabit.targetValue, entryMap, referenceDate);
     currentStreak = daily.currentStreak;
     bestStreak = daily.bestStreak;
 
@@ -214,15 +222,15 @@ export function calculateHabitStats(
     const last30Days = getDateRangeEndingAt(referenceDate, 30);
     let completedIn30Days = 0;
     for (const d of last30Days) {
-      if (isEntryCompleted(entryMap.get(d) ?? 0, habit.targetValue)) {
+      if (isEntryCompleted(entryMap.get(d) ?? 0, normalizedHabit.targetValue)) {
         completedIn30Days++;
       }
     }
     completionRate30d = Math.min(100, Math.max(0, Math.round((completedIn30Days / 30) * 100)));
   } else {
     const weekly = computeWeeklyStats(
-      habit.targetValue,
-      habit.frequencyCount,
+      normalizedHabit.targetValue,
+      normalizedHabit.frequencyCount,
       entryMap,
       referenceDate,
     );
@@ -231,13 +239,13 @@ export function calculateHabitStats(
 
     // Last 4 ISO weeks ending with the week of referenceDate
     const currentWeekMonday = getIsoWeekMonday(referenceDate);
-    const targetTotal = 4 * habit.frequencyCount;
+    const targetTotal = 4 * normalizedHabit.frequencyCount;
     let completedIn4Weeks = 0;
 
     for (let w = 0; w < 4; w++) {
       const weekMon = addDays(currentWeekMonday, -w * 7);
-      const count = countCompletedInWeek(weekMon, habit.targetValue, entryMap);
-      completedIn4Weeks += Math.min(count, habit.frequencyCount);
+      const count = countCompletedInWeek(weekMon, normalizedHabit.targetValue, entryMap);
+      completedIn4Weeks += Math.min(count, normalizedHabit.frequencyCount);
     }
 
     completionRate30d = targetTotal > 0
