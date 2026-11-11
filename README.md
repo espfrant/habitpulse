@@ -52,57 +52,9 @@ HabitPulse solves two distinct problems:
 
 HabitPulse is organized as a `pnpm` monorepo containing the REST API service (`apps/api`) and the single-page application (`apps/web`).
 
-```mermaid
-flowchart TD
-    subgraph Client["Client Tier"]
-        Browser["User Browser"]
-    end
-
-    subgraph WebServer["Web Gateway (Nginx / Web Container)"]
-        Nginx["Nginx 1.27 Alpine (Reverse Proxy)"]
-        SPA["Static React 19 Bundle (Vite + Tailwind)"]
-    end
-
-    subgraph BackendApp["API Tier (Fastify + Clean Architecture)"]
-        subgraph PresentationLayer["Presentation Layer"]
-            Routes["Fastify Routes (/api/v1)"]
-            ZodValidation["Zod Schemas & Fastify Type Provider"]
-            SwaggerUI["OpenAPI 3.1 & Swagger UI (/docs)"]
-            Probes["Probes (/healthz, /readyz)"]
-        end
-
-        subgraph ApplicationLayer["Application Layer"]
-            HabitService["HabitService (Orchestrator)"]
-        end
-
-        subgraph DomainLayer["Domain Layer (Zero Dependencies)"]
-            HabitEntity["Habit & HabitEntry Entities"]
-            StreakCalc["Streak Calculator (Daily & Weekly Windows)"]
-            HeatmapGrid["Heatmap Grid Builder (52-Week ISO Grid)"]
-        end
-
-        subgraph InfrastructureLayer["Infrastructure Layer"]
-            Repo["PostgresHabitRepository"]
-            Drizzle["Drizzle ORM & Schema"]
-            DbClient["pg Connection Pool"]
-        end
-    end
-
-    subgraph DataTier["Data Tier"]
-        Postgres[("PostgreSQL 16 Database")]
-    end
-
-    Browser -->|HTTP :8080| Nginx
-    Nginx -->|Serve Static SPA| SPA
-    Nginx -->|Proxy /api and /docs| Routes
-    Routes --> ZodValidation
-    Routes --> HabitService
-    HabitService --> DomainLayer
-    HabitService --> Repo
-    Repo --> Drizzle
-    Drizzle --> DbClient
-    DbClient -->|SQL over TCP :5432| Postgres
-```
+<p align="center">
+  <img src="./docs/assets/system-architecture.svg" alt="HabitPulse System & Clean Architecture Topology" width="100%" />
+</p>
 
 ### Architectural Principles
 
@@ -126,13 +78,17 @@ Tracking streaks accurately across daily and weekly intervals requires non-trivi
    - **Historical Best Streak:** The maximum consecutive sequence of satisfied days over the entire history.
 
 2. **Weekly Frequency (`weekly`):**
-   - A habit is expected $N$ days per ISO calendar week ($1 \le N \le 7$, e.g., "Gym 3x/week").
+   - A habit is expected `N` days per ISO calendar week (`1 <= N <= 7`, e.g., "Strength Training 4x/week").
    - Each calendar week (Monday to Sunday) is evaluated as a window:
-     $$\text{Week Completed} \iff \sum_{\text{day} \in \text{Week}} \mathbb{I}(\text{day is completed}) \ge N$$
-   - **Current Streak:** Consecutive successfully completed ISO weeks leading up to the current week. If the current week is in progress and has not yet reached $N$ completions, it does **not** break the active streak from preceding weeks.
+     ```text
+     Week Completed  <==>  count(completed days in ISO Week Mon..Sun) >= N
+     ```
+   - **Current Streak:** Consecutive successfully completed ISO weeks leading up to the current week. If the current week is in progress and has not yet reached `N` completions, it does **not** break the active streak from preceding weeks.
 
 3. **30-Day Completion Rate:**
-   $$\text{Rate}_{30d} = \text{round}\left(\frac{\text{Days Completed in last 30 days}}{\min(30, \text{Days since habit created})} \times 100\right)$$
+   ```text
+   Rate_30d = round((Completed Days in 30d Window / 30) * 100)
+   ```
 
 ### Date Boundaries & Timezone Offset Safety
 
@@ -149,50 +105,18 @@ The backend computes a full 365-day grid organized into 52 ISO weeks:
 - Mon–Sun 7-day columns matching standard contribution graph geometry.
 - 5 intensity levels:
   - `Level 0`: No activity (`value = 0`).
-  - `Level 1`: Partial progress ($0 < \text{ratio} < 0.5$).
-  - `Level 2`: Significant progress ($0.5 \le \text{ratio} < 1.0$).
-  - `Level 3`: Target achieved ($\text{ratio} = 1.0$).
-  - `Level 4`: Target exceeded ($\text{ratio} > 1.0$).
+  - `Level 1`: Partial progress (`0 < ratio < 0.5`).
+  - `Level 2`: Significant progress (`0.5 <= ratio < 1.0`).
+  - `Level 3`: Target achieved (`ratio = 1.0`).
+  - `Level 4`: Target exceeded (`ratio > 1.0`).
 
 ---
 
 ## 🗄 Database Schema & ER Model
 
-```mermaid
-erDiagram
-    users ||--o{ habits : "owns"
-    habits ||--o{ habit_entries : "logs"
-
-    users {
-        uuid id PK "Default: 00000000-0000-0000-0000-000000000001"
-        varchar email UK "demo@habitpulse.dev"
-        varchar display_name "Demo User"
-        varchar timezone "UTC"
-        timestamptz created_at "NOW()"
-    }
-
-    habits {
-        uuid id PK "gen_random_uuid()"
-        uuid user_id FK "References users(id) ON DELETE CASCADE"
-        varchar name "Max 120 chars"
-        varchar description "Nullable, Max 500 chars"
-        varchar color "Catppuccin color token"
-        varchar tracking_type "'boolean' | 'quantitative'"
-        integer target_value "Default: 1"
-        varchar unit "Nullable, e.g. 'pages', 'mins'"
-        varchar frequency_type "'daily' | 'weekly'"
-        integer frequency_count "1 to 7, Default: 1"
-        timestamptz created_at "NOW()"
-    }
-
-    habit_entries {
-        uuid id PK "gen_random_uuid()"
-        uuid habit_id FK "References habits(id) ON DELETE CASCADE"
-        date entry_date "YYYY-MM-DD (Unique per habit)"
-        integer value "Completed count or boolean 1/0"
-        timestamptz updated_at "NOW()"
-    }
-```
+<p align="center">
+  <img src="./docs/assets/er-diagram.svg" alt="HabitPulse Database Schema & ER Model" width="100%" />
+</p>
 
 - **Relational Integrity:** Cascading deletes on `habits` and `habit_entries`.
 - **Multi-Tenant Foundation:** All tables contain foreign keys to `users.id`.
@@ -248,7 +172,7 @@ All application endpoints are versioned under `/api/v1`. OpenAPI 3.1 definitions
 
 ### 1. Clone & Install Dependencies
 ```bash
-git clone https://github.com/your-username/habitpulse.git
+git clone https://github.com/espfrant/habitpulse.git
 cd habitpulse
 pnpm install
 ```
@@ -341,19 +265,9 @@ kubectl apply -f k8s/04-ingress.yaml
 
 The GitHub Actions workflow (`.github/workflows/ci.yml`) runs automatically on pushes and pull requests:
 
-```mermaid
-flowchart LR
-    Push["Git Push / PR"] --> TestJob["Job 1: Verify"]
-    TestJob --> Services["Postgres 16 Service Container"]
-    TestJob --> Lint["pnpm lint"]
-    TestJob --> Typecheck["pnpm typecheck"]
-    TestJob --> Vitest["pnpm test (Unit & Integration)"]
-    TestJob --> Build["pnpm build"]
-
-    TestJob --> DockerJob["Job 2: Docker Build"]
-    DockerJob --> DockerAPI["Build apps/api Dockerfile"]
-    DockerJob --> DockerWeb["Build apps/web Dockerfile"]
-```
+<p align="center">
+  <img src="./docs/assets/ci-pipeline.svg" alt="HabitPulse GitHub Actions CI/CD Pipeline" width="100%" />
+</p>
 
 1. **Service Container:** Spins up a true `postgres:16-alpine` instance with health checks.
 2. **Quality Gates:** Executes `pnpm lint`, `pnpm typecheck`, and Vitest test suites.

@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 340" width="100%" height="100%" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace">
+  <defs>
+    <marker id="er-crow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 6 L 10 6 M 10 1 L 3 6 L 10 11" fill="none" stroke="#cba6f7" stroke-width="1.8" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="920" height="340" rx="16" fill="#1e1e2e" stroke="#313244" stroke-width="2" />
+
+  <!-- Title -->
+  <text x="460" y="34" text-anchor="middle" fill="#cdd6f4" font-size="15" font-weight="700" letter-spacing="0.5">
+    POSTGRESQL 16 — ENTITY-RELATIONSHIP MODEL (DRIZZLE ORM)
+  </text>
+
+  <!-- Table 1: users -->
+  <rect x="28" y="60" width="245" height="190" rx="10" fill="#181825" stroke="#89b4fa" stroke-width="1.5" />
+  <rect x="28" y="60" width="245" height="34" rx="10" fill="#313244" />
+  <text x="150" y="82" text-anchor="middle" fill="#89b4fa" font-size="13" font-weight="700">users</text>
+
+  <text x="42" y="114" fill="#f9e2af" font-size="11" font-weight="700">PK</text>
+  <text x="68" y="114" fill="#cdd6f4" font-size="11" font-weight="600">id</text>
+  <text x="175" y="114" fill="#a6adc8" font-size="11">uuid</text>
+
+  <text x="42" y="138" fill="#94e2d5" font-size="11" font-weight="700">UK</text>
+  <text x="68" y="138" fill="#cdd6f4" font-size="11">email</text>
+  <text x="175" y="138" fill="#a6adc8" font-size="11">varchar(255)</text>
+
+  <text x="68" y="162" fill="#cdd6f4" font-size="11">display_name</text>
+  <text x="175" y="162" fill="#a6adc8" font-size="11">varchar(100)</text>
+
+  <text x="68" y="186" fill="#cdd6f4" font-size="11">timezone</text>
+  <text x="175" y="186" fill="#a6adc8" font-size="11">varchar(64)</text>
+
+  <text x="68" y="210" fill="#cdd6f4" font-size="11">created_at</text>
+  <text x="175" y="210" fill="#a6adc8" font-size="11">timestamptz</text>
+
+  <!-- Table 2: habits -->
+  <rect x="335" y="55" width="265" height="260" rx="10" fill="#181825" stroke="#cba6f7" stroke-width="1.5" />
+  <rect x="335" y="55" width="265" height="34" rx="10" fill="#313244" />
+  <text x="467" y="77" text-anchor="middle" fill="#cba6f7" font-size="13" font-weight="700">habits</text>
+
+  <text x="349" y="108" fill="#f9e2af" font-size="11" font-weight="700">PK</text>
+  <text x="375" y="108" fill="#cdd6f4" font-size="11" font-weight="600">id</text>
+  <text x="495" y="108" fill="#a6adc8" font-size="11">uuid</text>
+
+  <text x="349" y="128" fill="#fab387" font-size="11" font-weight="700">FK</text>
+  <text x="375" y="128" fill="#cdd6f4" font-size="11">user_id</text>
+  <text x="495" y="128" fill="#a6adc8" font-size="11">uuid (CASCADE)</text>
+
+  <text x="375" y="148" fill="#cdd6f4" font-size="11">name</text>
+  <text x="495" y="148" fill="#a6adc8" font-size="11">varchar(120)</text>
+
+  <text x="375" y="168" fill="#cdd6f4" font-size="11">description</text>
+  <text x="495" y="168" fill="#a6adc8" font-size="11">varchar(500)</text>
+
+  <text x="375" y="188" fill="#cdd6f4" font-size="11">color</text>
+  <text x="495" y="188" fill="#a6adc8" font-size="11">varchar(32)</text>
+
+  <text x="375" y="208" fill="#cdd6f4" font-size="11">tracking_type</text>
+  <text x="495" y="208" fill="#a6adc8" font-size="11">varchar(16)</text>
+
+  <text x="375" y="228" fill="#cdd6f4" font-size="11">target_value</text>
+  <text x="495" y="228" fill="#a6adc8" font-size="11">integer</text>
+
+  <text x="375" y="248" fill="#cdd6f4" font-size="11">unit</text>
+  <text x="495" y="248" fill="#a6adc8" font-size="11">varchar(32)</text>
+
+  <text x="375" y="268" fill="#cdd6f4" font-size="11">frequency_type</text>
+  <text x="495" y="268" fill="#a6adc8" font-size="11">varchar(16)</text>
+
+  <text x="375" y="288" fill="#cdd6f4" font-size="11">frequency_count</text>
+  <text x="495" y="288" fill="#a6adc8" font-size="11">integer (1..7)</text>
+
+  <text x="375" y="306" fill="#cdd6f4" font-size="11">created_at</text>
+  <text x="495" y="306" fill="#a6adc8" font-size="11">timestamptz</text>
+
+  <!-- Table 3: habit_entries -->
+  <rect x="660" y="60" width="232" height="190" rx="10" fill="#181825" stroke="#a6e3a1" stroke-width="1.5" />
+  <rect x="660" y="60" width="232" height="34" rx="10" fill="#313244" />
+  <text x="776" y="82" text-anchor="middle" fill="#a6e3a1" font-size="13" font-weight="700">habit_entries</text>
+
+  <text x="674" y="114" fill="#f9e2af" font-size="11" font-weight="700">PK</text>
+  <text x="700" y="114" fill="#cdd6f4" font-size="11" font-weight="600">id</text>
+  <text x="795" y="114" fill="#a6adc8" font-size="11">uuid</text>
+
+  <text x="674" y="138" fill="#fab387" font-size="11" font-weight="700">FK</text>
+  <text x="700" y="138" fill="#cdd6f4" font-size="11">habit_id</text>
+  <text x="795" y="138" fill="#a6adc8" font-size="11">uuid (CASCADE)</text>
+
+  <text x="674" y="162" fill="#94e2d5" font-size="11" font-weight="700">UK</text>
+  <text x="700" y="162" fill="#cdd6f4" font-size="11">entry_date</text>
+  <text x="795" y="162" fill="#a6adc8" font-size="11">date (YYYY-MM-DD)</text>
+
+  <text x="700" y="186" fill="#cdd6f4" font-size="11">value</text>
+  <text x="795" y="186" fill="#a6adc8" font-size="11">integer</text>
+
+  <text x="700" y="210" fill="#cdd6f4" font-size="11">updated_at</text>
+  <text x="795" y="210" fill="#a6adc8" font-size="11">timestamptz</text>
+
+  <text x="776" y="236" text-anchor="middle" fill="#94e2d5" font-size="10">UNIQUE (habit_id, entry_date)</text>
+
+  <!-- Relationship Lines -->
+  <line x1="273" y1="125" x2="332" y2="125" stroke="#cba6f7" stroke-width="2" marker-end="url(#er-crow)" />
+  <text x="303" y="116" text-anchor="middle" fill="#cba6f7" font-size="10" font-weight="600">1 : N</text>
+
+  <line x1="600" y1="135" x2="657" y2="135" stroke="#cba6f7" stroke-width="2" marker-end="url(#er-crow)" />
+  <text x="628" y="126" text-anchor="middle" fill="#cba6f7" font-size="10" font-weight="600">1 : N</text>
+</svg>
