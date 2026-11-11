@@ -173,7 +173,7 @@ describe('HabitPulse Web App', () => {
     });
 
     // Open modal
-    const newHabitButton = screen.getByRole('button', { name: /\+ New Habit|New Habit/i });
+    const newHabitButton = screen.getByRole('button', { name: /^New Habit$/i });
     await user.click(newHabitButton);
 
     // Modal dialog title should appear

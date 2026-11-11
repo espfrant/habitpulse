@@ -93,7 +93,7 @@ export const Header: React.FC<HeaderProps> = ({
             className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-mauve hover:opacity-90 text-crust text-sm font-semibold shadow-sm transition-all active:scale-95"
           >
             <Plus className="w-4 h-4 stroke-[2.5]" />
-            <span>+ New Habit</span>
+            <span>New Habit</span>
           </button>
         </div>
       </div>
