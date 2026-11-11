@@ -49,16 +49,23 @@ export const WeeklyHabitMatrix: React.FC<WeeklyHabitMatrixProps> = ({
     onUpsertEntry(habit.id, date, nextValue);
   };
 
+  const getStepForTarget = (target: number): number => {
+    if (target >= 100) return Math.max(1, Math.round(target / 5));
+    if (target >= 10) return Math.max(1, Math.round(target / 4));
+    return 1;
+  };
+
   const handleAdjustValue = (
     e: React.MouseEvent,
     habit: HabitDashboardItem,
     date: string,
-    delta: number,
+    direction: -1 | 1,
   ) => {
     e.stopPropagation();
     const entry = habit.weekEntries.find((e) => e.date === date);
     const currentValue = entry?.value ?? 0;
-    const nextValue = Math.max(0, currentValue + delta);
+    const step = getStepForTarget(habit.targetValue);
+    const nextValue = Math.max(0, currentValue + direction * step);
     onUpsertEntry(habit.id, date, nextValue);
   };
 
@@ -109,7 +116,7 @@ export const WeeklyHabitMatrix: React.FC<WeeklyHabitMatrixProps> = ({
                 <td colSpan={11} className="py-12 text-center text-subtext0">
                   <p className="font-medium">No habits tracked yet.</p>
                   <p className="text-xs mt-1">
-                    Click <strong>+ New Habit</strong> or <strong>Seed Demo</strong> to get started.
+                    Click <strong>New Habit</strong> or <strong>Seed Demo</strong> to get started.
                   </p>
                 </td>
               </tr>

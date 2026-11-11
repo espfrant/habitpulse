@@ -89,7 +89,7 @@ export function generateDemoDataset(referenceDate: string): DemoDataset {
       frequencyType: 'daily',
       frequencyCount: 1,
       generateValue: (prng, _isoDay, isRecent) => {
-        if (isRecent) return 25;
+        if (isRecent) return 20;
         if (prng() < 0.72) {
           return 15 + Math.floor(prng() * 20); // 15..34
         }
@@ -137,7 +137,7 @@ export function generateDemoDataset(referenceDate: string): DemoDataset {
       frequencyType: 'daily',
       frequencyCount: 1,
       generateValue: (prng, _isoDay, isRecent) => {
-        if (isRecent) return 2750;
+        if (isRecent) return 2500;
         if (prng() < 0.85) {
           return 2000 + Math.floor(prng() * 1200); // 2000..3199
         }

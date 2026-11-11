@@ -148,24 +148,45 @@ describe('streak-calculator domain logic', () => {
     expect(grid[0]?.date).toBe('2025-11-12');
   });
 
-  it('ignores future entries past referenceDate in weekly streak and completion rate', () => {
-    // Current week Mon 2026-11-09..Sun 2026-11-15
-    // referenceDate is Wednesday 2026-11-11
-    // Entries on 2026-11-09 (value 1), and future entries on 2026-11-12 (value 1), 2026-11-13 (value 1)
-    // frequencyCount: 3
-    // At referenceDate (Wed), only 1 completion has occurred. The future completions must NOT count as completed yet.
+  it('counts completed entries across all 7 days of the current ISO week and ignores entries beyond currentWeekSunday', () => {
+    // Current week Mon 2026-11-09..Sun 2026-11-15, referenceDate is Wednesday 2026-11-11
     const stats = calculateHabitStats(
       { trackingType: 'boolean', targetValue: 1, frequencyType: 'weekly', frequencyCount: 3 },
       [
         { entryDate: '2026-11-09', value: 1 },
-        { entryDate: '2026-11-12', value: 1 }, // future
-        { entryDate: '2026-11-13', value: 1 }, // future
+        { entryDate: '2026-11-12', value: 1 }, // Thu in current week
+        { entryDate: '2026-11-13', value: 1 }, // Fri in current week
+        { entryDate: '2026-11-16', value: 1 }, // Next week (beyond currentWeekSunday)
       ],
       '2026-11-11',
     );
-    // Since only 1 entry is <= referenceDate, current week is not completed yet (1 < 3)
-    expect(stats.totalCompletions).toBe(1);
-    expect(stats.currentStreak).toBe(0); // no previous completed week
+    expect(stats.totalCompletions).toBe(3);
+    expect(stats.currentStreak).toBe(1);
+  });
+
+  it('increments and decrements daily currentStreak smoothly across all 7 days of the current ISO week (Mon..Sun)', () => {
+    const habit = {
+      trackingType: 'boolean' as const,
+      targetValue: 1,
+      frequencyType: 'daily' as const,
+      frequencyCount: 1,
+    };
+    const weekDates = [
+      '2026-11-09',
+      '2026-11-10',
+      '2026-11-11',
+      '2026-11-12',
+      '2026-11-13',
+      '2026-11-14',
+      '2026-11-15',
+    ];
+
+    for (let count = 1; count <= 7; count++) {
+      const entries = weekDates.slice(0, count).map((entryDate) => ({ entryDate, value: 1 }));
+      const stats = calculateHabitStats(habit, entries, '2026-11-11');
+      expect(stats.currentStreak).toBe(count);
+      expect(stats.bestStreak).toBe(count);
+    }
   });
 
   it('coerces boolean targetValue to 1 and daily frequencyCount to 1', () => {

@@ -33,31 +33,59 @@ function computeDailyStats(
   entryMap: Map<string, number>,
   referenceDate: string,
 ): { currentStreak: number; bestStreak: number } {
-  // Current streak calculation
-  let currentStreak = 0;
-  const isTodayCompleted = isEntryCompleted(entryMap.get(referenceDate) ?? 0, targetValue);
-  const yesterday = addDays(referenceDate, -1);
-  const isYesterdayCompleted = isEntryCompleted(entryMap.get(yesterday) ?? 0, targetValue);
+  const currentWeekMonday = getIsoWeekMonday(referenceDate);
+  const currentWeekSunday = addDays(currentWeekMonday, 6);
 
-  if (isTodayCompleted) {
-    let cursor = referenceDate;
-    while (isEntryCompleted(entryMap.get(cursor) ?? 0, targetValue)) {
-      currentStreak++;
-      cursor = addDays(cursor, -1);
-    }
-  } else if (isYesterdayCompleted) {
-    // Preserved active daily streak when today is still in progress
-    let cursor = yesterday;
-    while (isEntryCompleted(entryMap.get(cursor) ?? 0, targetValue)) {
-      currentStreak++;
-      cursor = addDays(cursor, -1);
+  // Find the latest date with a positive entry and latest completed date from currentWeekMonday onwards
+  let latestCompletedInWeekOrBeyond: string | null = null;
+  let latestAttemptedInWeekOrBeyond: string | null = null;
+
+  for (const [date, val] of entryMap.entries()) {
+    if (date >= currentWeekMonday && val > 0) {
+      if (latestAttemptedInWeekOrBeyond === null || date > latestAttemptedInWeekOrBeyond) {
+        latestAttemptedInWeekOrBeyond = date;
+      }
+      if (isEntryCompleted(val, targetValue)) {
+        if (latestCompletedInWeekOrBeyond === null || date > latestCompletedInWeekOrBeyond) {
+          latestCompletedInWeekOrBeyond = date;
+        }
+      }
     }
   }
 
-  // Best streak calculation across all completed dates up to referenceDate
+  let currentStreak = 0;
+
+  if (latestCompletedInWeekOrBeyond !== null) {
+    // Check if there is a later attempted (partial, uncompleted) date with a missed day gap before it
+    const hasBrokenLaterAttempt =
+      latestAttemptedInWeekOrBeyond !== null &&
+      latestAttemptedInWeekOrBeyond > latestCompletedInWeekOrBeyond &&
+      diffDays(latestAttemptedInWeekOrBeyond, latestCompletedInWeekOrBeyond) > 1;
+
+    if (!hasBrokenLaterAttempt) {
+      let cursor = latestCompletedInWeekOrBeyond;
+      while (isEntryCompleted(entryMap.get(cursor) ?? 0, targetValue)) {
+        currentStreak++;
+        cursor = addDays(cursor, -1);
+      }
+    }
+  } else {
+    // No completed days in the current week yet; preserve streak if yesterday (e.g. Sunday on Monday morning) was completed
+    const yesterday = addDays(referenceDate, -1);
+    if (isEntryCompleted(entryMap.get(yesterday) ?? 0, targetValue)) {
+      let cursor = yesterday;
+      while (isEntryCompleted(entryMap.get(cursor) ?? 0, targetValue)) {
+        currentStreak++;
+        cursor = addDays(cursor, -1);
+      }
+    }
+  }
+
+  // Best streak calculation across all completed dates (including current week)
+  const maxDate = currentWeekSunday > referenceDate ? currentWeekSunday : referenceDate;
   const completedDates: string[] = [];
   for (const [date, val] of entryMap.entries()) {
-    if (date <= referenceDate && isEntryCompleted(val, targetValue)) {
+    if (date <= maxDate && isEntryCompleted(val, targetValue)) {
       completedDates.push(date);
     }
   }
@@ -111,14 +139,8 @@ function computeWeeklyStats(
   const currentWeekMonday = getIsoWeekMonday(referenceDate);
   const currentWeekSunday = addDays(currentWeekMonday, 6);
 
-  // Count completions in current week up to referenceDate
-  let completionsSoFar = 0;
-  for (let i = 0; i < 7; i++) {
-    const d = addDays(currentWeekMonday, i);
-    if (d <= referenceDate && isEntryCompleted(entryMap.get(d) ?? 0, targetValue)) {
-      completionsSoFar++;
-    }
-  }
+  // Count completions across all 7 days of the current ISO week
+  const completionsSoFar = countCompletedInWeek(currentWeekMonday, targetValue, entryMap);
 
   // Check if current week is already met
   let currentStreak = 0;
@@ -150,10 +172,10 @@ function computeWeeklyStats(
     }
   }
 
-  // Best streak: maximum consecutive completed ISO weeks across history
+  // Best streak: maximum consecutive completed ISO weeks across history (up to currentWeekSunday)
   const completedWeekMondays = new Set<string>();
   for (const [date, val] of entryMap.entries()) {
-    if (date <= referenceDate && isEntryCompleted(val, targetValue)) {
+    if (date <= currentWeekSunday && isEntryCompleted(val, targetValue)) {
       const weekMon = getIsoWeekMonday(date);
       if (countCompletedInWeek(weekMon, targetValue, entryMap) >= reqCount) {
         completedWeekMondays.add(weekMon);
@@ -195,15 +217,25 @@ export function calculateHabitStats(
     frequencyCount: habit.frequencyType === 'daily' ? 1 : habit.frequencyCount,
   };
 
+  const currentWeekMonday = getIsoWeekMonday(referenceDate);
+  const currentWeekSunday = addDays(currentWeekMonday, 6);
+
   const entryMap = new Map<string, number>();
+  let latestCompletedDate = referenceDate;
   for (const entry of entries) {
-    if (entry.entryDate <= referenceDate) {
+    if (entry.entryDate <= currentWeekSunday) {
       entryMap.set(entry.entryDate, entry.value);
+      if (
+        entry.entryDate > latestCompletedDate &&
+        isEntryCompleted(entry.value, normalizedHabit.targetValue)
+      ) {
+        latestCompletedDate = entry.entryDate;
+      }
     }
   }
 
   let totalCompletions = 0;
-  for (const [date, val] of entryMap.entries()) {
+  for (const [_date, val] of entryMap.entries()) {
     if (isEntryCompleted(val, normalizedHabit.targetValue)) {
       totalCompletions++;
     }
@@ -218,8 +250,8 @@ export function calculateHabitStats(
     currentStreak = daily.currentStreak;
     bestStreak = daily.bestStreak;
 
-    // 30-day window ending on referenceDate
-    const last30Days = getDateRangeEndingAt(referenceDate, 30);
+    // 30-day window ending on latestCompletedDate (or referenceDate)
+    const last30Days = getDateRangeEndingAt(latestCompletedDate, 30);
     let completedIn30Days = 0;
     for (const d of last30Days) {
       if (isEntryCompleted(entryMap.get(d) ?? 0, normalizedHabit.targetValue)) {
