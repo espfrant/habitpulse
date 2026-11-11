@@ -42,6 +42,7 @@ export const AnnualHeatmap: React.FC<AnnualHeatmapProps> = ({
 
   const { habit, stats, cells } = heatmapData;
   const accentHex = getAccentHex(habit.color, theme);
+  const streakUnit = habit.frequencyType === 'weekly' ? 'weeks' : 'days';
 
   // Group cells into columns of 7 days (Mon..Sun)
   // Determine starting offset of first cell (Monday = 0 ... Sunday = 6)
@@ -121,7 +122,7 @@ export const AnnualHeatmap: React.FC<AnnualHeatmapProps> = ({
               <Flame className="w-3.5 h-3.5 text-peach fill-peach" />
               <span>Current</span>
             </div>
-            <div className="text-sm font-bold text-text mt-0.5">{stats.currentStreak} days</div>
+            <div className="text-sm font-bold text-text mt-0.5">{stats.currentStreak} {streakUnit}</div>
           </div>
 
           <div className="bg-surface0/40 rounded-xl px-3 py-2 border border-surface0/60">
@@ -129,7 +130,7 @@ export const AnnualHeatmap: React.FC<AnnualHeatmapProps> = ({
               <Trophy className="w-3.5 h-3.5 text-yellow" />
               <span>Best</span>
             </div>
-            <div className="text-sm font-bold text-text mt-0.5">{stats.bestStreak} days</div>
+            <div className="text-sm font-bold text-text mt-0.5">{stats.bestStreak} {streakUnit}</div>
           </div>
 
           <div className="bg-surface0/40 rounded-xl px-3 py-2 border border-surface0/60">

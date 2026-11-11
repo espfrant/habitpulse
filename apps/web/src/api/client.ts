@@ -55,6 +55,7 @@ export interface HeatmapResponse {
     trackingType: 'boolean' | 'quantitative';
     targetValue: number;
     unit: string | null;
+    frequencyType?: 'daily' | 'weekly';
   };
   stats: {
     currentStreak: number;

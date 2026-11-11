@@ -269,4 +269,27 @@ describe('HabitPulse Web App', () => {
     const earlyMorningDate = new Date(2026, 10, 11, 0, 15, 0);
     expect(formatLocalDate(earlyMorningDate)).toBe('2026-11-11');
   });
+
+  it('displays weeks unit in heatmap stats chips for weekly habits', async () => {
+    vi.mocked(apiClient.getHabitHeatmap).mockResolvedValue({
+      ...mockHeatmapResponse,
+      habit: {
+        ...mockHabit1,
+        frequencyType: 'weekly',
+      },
+      stats: {
+        currentStreak: 3,
+        bestStreak: 7,
+        completionRate30d: 85,
+        totalCompletions: 42,
+      },
+    });
+
+    render(<App />);
+
+    await waitFor(() => {
+      expect(screen.getByText('3 weeks')).toBeInTheDocument();
+      expect(screen.getByText('7 weeks')).toBeInTheDocument();
+    });
+  });
 });
