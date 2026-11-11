@@ -4,8 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev": "node --watch dist/src/server.js",
     "build": "tsc",
+    "start": "node dist/src/server.js",
     "typecheck": "tsc --noEmit",
+    "lint": "echo 'no lint'",
     "test": "vitest run",
     "test:watch": "vitest"
   },

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: habitpulse
+  labels:
+    app.kubernetes.io/name: habitpulse
+    app.kubernetes.io/part-of: habitpulse

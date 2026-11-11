@@ -8,7 +8,7 @@ export interface EnvConfig {
 
 export function loadEnv(): EnvConfig {
   return {
-    PORT: process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 3001,
+    PORT: process.env.PORT ? Number.parseInt(process.env.PORT, 10) : 3000,
     HOST: process.env.HOST || '0.0.0.0',
     DATABASE_URL:
       process.env.DATABASE_URL ||

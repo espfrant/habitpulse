@@ -6,8 +6,8 @@
   "scripts": {
     "build": "pnpm --recursive run build",
     "test": "pnpm --recursive run test",
-    "lint": "pnpm --recursive run lint",
+    "lint": "pnpm --recursive --if-present run lint",
     "typecheck": "pnpm --recursive run typecheck",
-    "dev": "pnpm --recursive run dev"
+    "dev": "pnpm --recursive --if-present run dev"
   }
 }
