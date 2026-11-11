@@ -270,7 +270,19 @@ describe('HabitPulse Web App', () => {
     expect(formatLocalDate(earlyMorningDate)).toBe('2026-11-11');
   });
 
-  it('displays weeks unit in heatmap stats chips for weekly habits', async () => {
+  it('displays weeks unit in heatmap stats chips and weekly progress in matrix for weekly habits', async () => {
+    vi.mocked(apiClient.getDashboard).mockResolvedValue({
+      ...mockDashboardResponse,
+      habits: [
+        {
+          ...mockHabit1,
+          frequencyType: 'weekly',
+          frequencyCount: 4,
+          currentStreak: 4,
+        },
+        mockHabit2,
+      ],
+    });
     vi.mocked(apiClient.getHabitHeatmap).mockResolvedValue({
       ...mockHeatmapResponse,
       habit: {
@@ -288,6 +300,7 @@ describe('HabitPulse Web App', () => {
     render(<App />);
 
     await waitFor(() => {
+      expect(screen.getByText('4 wks (2/4)')).toBeInTheDocument();
       expect(screen.getByText('3 weeks')).toBeInTheDocument();
       expect(screen.getByText('7 weeks')).toBeInTheDocument();
     });

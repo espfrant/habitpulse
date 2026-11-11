@@ -259,8 +259,9 @@ export const WeeklyHabitMatrix: React.FC<WeeklyHabitMatrixProps> = ({
                       <div className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-peach/10 text-peach text-xs font-bold">
                         <Flame className="w-3.5 h-3.5 fill-peach" />
                         <span>
-                          {habit.currentStreak}{' '}
-                          {habit.frequencyType === 'daily' ? 'days' : 'wks'}
+                          {habit.frequencyType === 'daily'
+                            ? `${habit.currentStreak} days`
+                            : `${habit.currentStreak} wks (${habit.weekEntries.filter((e) => e.completed).length}/${habit.frequencyCount})`}
                         </span>
                       </div>
                     </td>
