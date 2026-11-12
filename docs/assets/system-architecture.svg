@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 550" width="100%" height="100%" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
   <defs>
     <marker id="arrow-mauve" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#cba6f7" />
@@ -12,121 +12,154 @@
     <marker id="arrow-peach" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 1 L 10 5 L 0 9 z" fill="#fab387" />
     </marker>
+    <marker id="arrow-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#94e2d5" />
+    </marker>
   </defs>
 
-  <!-- Background -->
-  <rect width="960" height="540" rx="16" fill="#1e1e2e" stroke="#313244" stroke-width="2" />
+  <!-- Main Canvas Background -->
+  <rect width="1040" height="550" rx="16" fill="#1e1e2e" stroke="#313244" stroke-width="2" />
 
-  <!-- Title -->
-  <text x="480" y="34" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="700" letter-spacing="0.5">
+  <!-- Diagram Header -->
+  <text x="520" y="36" text-anchor="middle" fill="#cdd6f4" font-size="16" font-weight="700" letter-spacing="0.6">
     HABITPULSE — SYSTEM &amp; CLEAN ARCHITECTURE TOPOLOGY
   </text>
 
-  <!-- 1. Client Tier -->
-  <rect x="30" y="60" width="190" height="150" rx="12" fill="#181825" stroke="#cba6f7" stroke-width="1.5" />
-  <text x="125" y="85" text-anchor="middle" fill="#cba6f7" font-size="12" font-weight="700">CLIENT TIER</text>
-  <rect x="48" y="102" width="154" height="88" rx="8" fill="#313244" stroke="#45475a" stroke-width="1" />
-  <text x="125" y="135" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="700">User Browser</text>
-  <text x="125" y="155" text-anchor="middle" fill="#a6adc8" font-size="11">Catppuccin Mocha / Latte</text>
-  <text x="125" y="173" text-anchor="middle" fill="#a6adc8" font-size="10">HTTP :8080 / :5173</text>
+  <!-- ===================================================================== -->
+  <!-- 1. CLIENT TIER (Top-Left)                                             -->
+  <!-- ===================================================================== -->
+  <rect x="28" y="62" width="204" height="132" rx="12" fill="#181825" stroke="#cba6f7" stroke-width="1.6" />
+  <text x="130" y="86" text-anchor="middle" fill="#cba6f7" font-size="11" font-weight="700" letter-spacing="0.5">
+    CLIENT TIER
+  </text>
+  <rect x="44" y="98" width="172" height="80" rx="8" fill="#313244" stroke="#45475a" stroke-width="1" />
+  <text x="130" y="124" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="700">User Browser</text>
+  <text x="130" y="144" text-anchor="middle" fill="#a6adc8" font-size="10">Catppuccin Mocha / Latte UI</text>
+  <text x="130" y="162" text-anchor="middle" fill="#cba6f7" font-size="10" font-weight="600">HTTP :8080 / :5173</text>
 
-  <!-- 2. Web Gateway Tier -->
-  <rect x="30" y="260" width="190" height="245" rx="12" fill="#181825" stroke="#89b4fa" stroke-width="1.5" />
-  <text x="125" y="285" text-anchor="middle" fill="#89b4fa" font-size="12" font-weight="700">WEB GATEWAY (apps/web)</text>
+  <!-- Arrow: Client Tier -> Web Gateway -->
+  <line x1="130" y1="194" x2="130" y2="246" stroke="#cba6f7" stroke-width="2" marker-end="url(#arrow-mauve)" />
+  <rect x="142" y="209" width="76" height="20" rx="5" fill="#313244" stroke="#cba6f7" stroke-width="1" />
+  <text x="180" y="223" text-anchor="middle" fill="#cba6f7" font-size="10" font-weight="600">HTTP :8080</text>
 
-  <rect x="48" y="302" width="154" height="82" rx="8" fill="#313244" stroke="#45475a" stroke-width="1" />
-  <text x="125" y="330" text-anchor="middle" fill="#cdd6f4" font-size="12" font-weight="700">Nginx 1.27 Alpine</text>
-  <text x="125" y="348" text-anchor="middle" fill="#a6adc8" font-size="10">Reverse Proxy (/api, /docs)</text>
-  <text x="125" y="366" text-anchor="middle" fill="#a6adc8" font-size="10">Static Gzip Asset Server</text>
+  <!-- ===================================================================== -->
+  <!-- 2. WEB GATEWAY TIER (Bottom-Left)                                     -->
+  <!-- ===================================================================== -->
+  <rect x="28" y="252" width="204" height="268" rx="12" fill="#181825" stroke="#89b4fa" stroke-width="1.6" />
+  <text x="130" y="276" text-anchor="middle" fill="#89b4fa" font-size="11" font-weight="700" letter-spacing="0.5">
+    WEB GATEWAY (apps/web)
+  </text>
 
-  <rect x="48" y="402" width="154" height="84" rx="8" fill="#313244" stroke="#45475a" stroke-width="1" />
-  <text x="125" y="430" text-anchor="middle" fill="#cdd6f4" font-size="12" font-weight="700">React 19 SPA Bundle</text>
-  <text x="125" y="448" text-anchor="middle" fill="#a6adc8" font-size="10">Vite + Tailwind CSS</text>
-  <text x="125" y="466" text-anchor="middle" fill="#a6adc8" font-size="10">TanStack Query v5</text>
+  <!-- Nginx Box -->
+  <rect x="44" y="290" width="172" height="82" rx="8" fill="#313244" stroke="#45475a" stroke-width="1" />
+  <text x="130" y="316" text-anchor="middle" fill="#cdd6f4" font-size="12" font-weight="700">Nginx 1.27 Alpine</text>
+  <text x="130" y="336" text-anchor="middle" fill="#a6adc8" font-size="10">Reverse Proxy (/api, /docs)</text>
+  <text x="130" y="354" text-anchor="middle" fill="#a6adc8" font-size="10">Static Gzip Asset Server</text>
 
-  <!-- Arrow: Browser -> Nginx -->
-  <line x1="125" y1="190" x2="125" y2="296" stroke="#cba6f7" stroke-width="2" marker-end="url(#arrow-mauve)" />
-  <text x="133" y="242" fill="#cba6f7" font-size="10" font-weight="600">HTTP :8080</text>
+  <!-- Arrow: Nginx -> React SPA -->
+  <line x1="130" y1="372" x2="130" y2="412" stroke="#89b4fa" stroke-width="1.8" marker-end="url(#arrow-blue)" />
+  <text x="174" y="396" text-anchor="middle" fill="#89b4fa" font-size="9.5" font-weight="600">Serves SPA</text>
 
-  <!-- Arrow: Nginx -> SPA -->
-  <line x1="125" y1="384" x2="125" y2="398" stroke="#89b4fa" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+  <!-- React SPA Box -->
+  <rect x="44" y="418" width="172" height="84" rx="8" fill="#313244" stroke="#45475a" stroke-width="1" />
+  <text x="130" y="444" text-anchor="middle" fill="#cdd6f4" font-size="12" font-weight="700">React 19 SPA Bundle</text>
+  <text x="130" y="464" text-anchor="middle" fill="#a6adc8" font-size="10">Vite 6 + Tailwind CSS</text>
+  <text x="130" y="482" text-anchor="middle" fill="#a6adc8" font-size="10">TanStack Query v5</text>
 
-  <!-- 3. Backend API Tier -->
-  <rect x="265" y="60" width="465" height="445" rx="12" fill="#181825" stroke="#a6e3a1" stroke-width="1.5" />
-  <text x="497" y="85" text-anchor="middle" fill="#a6e3a1" font-size="12" font-weight="700">
+  <!-- Orthogonal Arrow: Web Gateway -> API Tier (100% inside corridor x=232..326) -->
+  <path d="M 232 331 L 276 331 L 276 145 L 322 145" fill="none" stroke="#89b4fa" stroke-width="2.2" stroke-linejoin="round" marker-end="url(#arrow-blue)" />
+  <rect x="239" y="218" width="74" height="38" rx="6" fill="#181825" stroke="#89b4fa" stroke-width="1.2" />
+  <text x="276" y="234" text-anchor="middle" fill="#89b4fa" font-size="9.5" font-weight="700">/api &amp; /docs</text>
+  <text x="276" y="248" text-anchor="middle" fill="#cdd6f4" font-size="9">Proxy :3000</text>
+
+  <!-- ===================================================================== -->
+  <!-- 3. BACKEND API TIER (Center)                                          -->
+  <!-- ===================================================================== -->
+  <rect x="326" y="62" width="490" height="458" rx="12" fill="#181825" stroke="#a6e3a1" stroke-width="1.6" />
+  <text x="571" y="86" text-anchor="middle" fill="#a6e3a1" font-size="11.5" font-weight="700" letter-spacing="0.5">
     API TIER — FASTIFY 5 + CLEAN ARCHITECTURE (apps/api)
   </text>
 
-  <!-- Presentation Layer -->
-  <rect x="285" y="102" width="425" height="82" rx="8" fill="#313244" stroke="#cba6f7" stroke-width="1.2" />
-  <text x="300" y="122" fill="#cba6f7" font-size="11" font-weight="700">PRESENTATION LAYER (src/presentation)</text>
-  <rect x="300" y="132" width="125" height="40" rx="6" fill="#1e1e2e" stroke="#45475a" />
-  <text x="362" y="150" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="600">REST Routes</text>
-  <text x="362" y="164" text-anchor="middle" fill="#a6adc8" font-size="9">/api/v1/*, /healthz</text>
+  <!-- 3A. PRESENTATION LAYER -->
+  <rect x="344" y="100" width="454" height="90" rx="8" fill="#313244" stroke="#cba6f7" stroke-width="1.3" />
+  <text x="360" y="120" fill="#cba6f7" font-size="10.5" font-weight="700">PRESENTATION LAYER (src/presentation)</text>
 
-  <rect x="435" y="132" width="125" height="40" rx="6" fill="#1e1e2e" stroke="#45475a" />
-  <text x="497" y="150" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="600">Zod Validation</text>
-  <text x="497" y="164" text-anchor="middle" fill="#a6adc8" font-size="9">Type Provider</text>
+  <rect x="360" y="130" width="132" height="46" rx="6" fill="#1e1e2e" stroke="#45475a" />
+  <text x="426" y="150" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="700">REST Routes</text>
+  <text x="426" y="166" text-anchor="middle" fill="#a6adc8" font-size="9.5">/api/v1/*, /healthz</text>
 
-  <rect x="570" y="132" width="125" height="40" rx="6" fill="#1e1e2e" stroke="#45475a" />
-  <text x="632" y="150" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="600">OpenAPI 3.1</text>
-  <text x="632" y="164" text-anchor="middle" fill="#a6adc8" font-size="9">Swagger UI (/docs)</text>
+  <rect x="505" y="130" width="132" height="46" rx="6" fill="#1e1e2e" stroke="#45475a" />
+  <text x="571" y="150" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="700">Zod Validation</text>
+  <text x="571" y="166" text-anchor="middle" fill="#a6adc8" font-size="9.5">Fastify Type Provider</text>
 
-  <!-- Application Layer -->
-  <rect x="285" y="206" width="425" height="68" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="1.2" />
-  <text x="300" y="226" fill="#89b4fa" font-size="11" font-weight="700">APPLICATION LAYER (src/application)</text>
-  <rect x="300" y="234" width="395" height="30" rx="6" fill="#1e1e2e" stroke="#45475a" />
-  <text x="497" y="253" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="600">
+  <rect x="650" y="130" width="132" height="46" rx="6" fill="#1e1e2e" stroke="#45475a" />
+  <text x="716" y="150" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="700">OpenAPI 3.1</text>
+  <text x="716" y="166" text-anchor="middle" fill="#a6adc8" font-size="9.5">Swagger UI (/docs)</text>
+
+  <!-- Arrow: Presentation -> Application -->
+  <line x1="571" y1="190" x2="571" y2="212" stroke="#cba6f7" stroke-width="2" marker-end="url(#arrow-mauve)" />
+
+  <!-- 3B. APPLICATION LAYER -->
+  <rect x="344" y="218" width="454" height="72" rx="8" fill="#313244" stroke="#89b4fa" stroke-width="1.3" />
+  <text x="360" y="238" fill="#89b4fa" font-size="10.5" font-weight="700">APPLICATION LAYER (src/application)</text>
+  <rect x="360" y="246" width="422" height="32" rx="6" fill="#1e1e2e" stroke="#45475a" />
+  <text x="571" y="266" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="600">
     HabitService — Use-Case Orchestrator &amp; Dashboard Aggregator
   </text>
 
-  <!-- Domain Layer -->
-  <rect x="285" y="296" width="425" height="90" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.2" />
-  <text x="300" y="316" fill="#a6e3a1" font-size="11" font-weight="700">DOMAIN LAYER — ZERO EXTERNAL DEPENDENCIES (src/domain)</text>
-  <rect x="300" y="326" width="125" height="48" rx="6" fill="#1e1e2e" stroke="#45475a" />
-  <text x="362" y="346" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="600">Habit Entities</text>
-  <text x="362" y="362" text-anchor="middle" fill="#a6adc8" font-size="9">Invariants &amp; Types</text>
+  <!-- Split Vertical Arrows: Application -> Domain (left) & Application -> Infrastructure (right) -->
+  <line x1="452" y1="290" x2="452" y2="314" stroke="#a6e3a1" stroke-width="2" marker-end="url(#arrow-green)" />
+  <line x1="690" y1="290" x2="690" y2="314" stroke="#fab387" stroke-width="2" marker-end="url(#arrow-peach)" />
 
-  <rect x="435" y="326" width="125" height="48" rx="6" fill="#1e1e2e" stroke="#45475a" />
-  <text x="497" y="346" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="600">Streak Engine</text>
-  <text x="497" y="362" text-anchor="middle" fill="#a6adc8" font-size="9">Daily &amp; ISO Weekly</text>
+  <!-- 3C. DOMAIN LAYER (Bottom-Left of API Tier) -->
+  <rect x="344" y="320" width="218" height="184" rx="8" fill="#313244" stroke="#a6e3a1" stroke-width="1.3" />
+  <text x="453" y="340" text-anchor="middle" fill="#a6e3a1" font-size="10.5" font-weight="700">DOMAIN LAYER (src/domain)</text>
+  <text x="453" y="354" text-anchor="middle" fill="#a6adc8" font-size="9">Zero External Dependencies</text>
 
-  <rect x="570" y="326" width="125" height="48" rx="6" fill="#1e1e2e" stroke="#45475a" />
-  <text x="632" y="346" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="600">Heatmap Builder</text>
-  <text x="632" y="362" text-anchor="middle" fill="#a6adc8" font-size="9">365d Intensity 0..4</text>
+  <rect x="358" y="364" width="190" height="38" rx="6" fill="#1e1e2e" stroke="#45475a" />
+  <text x="453" y="381" text-anchor="middle" fill="#cdd6f4" font-size="10.5" font-weight="700">Habit Entities</text>
+  <text x="453" y="395" text-anchor="middle" fill="#a6adc8" font-size="9">Domain Types &amp; Invariants</text>
 
-  <!-- Infrastructure Layer -->
-  <rect x="285" y="408" width="425" height="82" rx="8" fill="#313244" stroke="#fab387" stroke-width="1.2" />
-  <text x="300" y="428" fill="#fab387" font-size="11" font-weight="700">INFRASTRUCTURE LAYER (src/infrastructure)</text>
-  <rect x="300" y="438" width="125" height="40" rx="6" fill="#1e1e2e" stroke="#45475a" />
-  <text x="362" y="456" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="600">HabitRepository</text>
-  <text x="362" y="470" text-anchor="middle" fill="#a6adc8" font-size="9">Postgres &amp; InMemory</text>
+  <rect x="358" y="410" width="190" height="38" rx="6" fill="#1e1e2e" stroke="#45475a" />
+  <text x="453" y="427" text-anchor="middle" fill="#cdd6f4" font-size="10.5" font-weight="700">Streak Calculator</text>
+  <text x="453" y="441" text-anchor="middle" fill="#a6adc8" font-size="9">Daily &amp; ISO Weekly Math</text>
 
-  <rect x="435" y="438" width="125" height="40" rx="6" fill="#1e1e2e" stroke="#45475a" />
-  <text x="497" y="456" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="600">Drizzle ORM</text>
-  <text x="497" y="470" text-anchor="middle" fill="#a6adc8" font-size="9">Schema &amp; Migrations</text>
+  <rect x="358" y="456" width="190" height="38" rx="6" fill="#1e1e2e" stroke="#45475a" />
+  <text x="453" y="473" text-anchor="middle" fill="#cdd6f4" font-size="10.5" font-weight="700">Heatmap Grid Builder</text>
+  <text x="453" y="487" text-anchor="middle" fill="#a6adc8" font-size="9">365-Day Intensity (0..4)</text>
 
-  <rect x="570" y="438" width="125" height="40" rx="6" fill="#1e1e2e" stroke="#45475a" />
-  <text x="632" y="456" text-anchor="middle" fill="#cdd6f4" font-size="11" font-weight="600">Demo Seeder</text>
-  <text x="632" y="470" text-anchor="middle" fill="#a6adc8" font-size="9">Deterministic PRNG</text>
+  <!-- 3D. INFRASTRUCTURE LAYER (Bottom-Right of API Tier) -->
+  <rect x="580" y="320" width="218" height="184" rx="8" fill="#313244" stroke="#fab387" stroke-width="1.3" />
+  <text x="689" y="340" text-anchor="middle" fill="#fab387" font-size="10.5" font-weight="700">INFRASTRUCTURE (src/infra)</text>
+  <text x="689" y="354" text-anchor="middle" fill="#a6adc8" font-size="9">Persistence &amp; Adapters</text>
 
-  <!-- Arrows inside API Tier -->
-  <line x1="202" y1="342" x2="280" y2="152" stroke="#89b4fa" stroke-width="2" marker-end="url(#arrow-blue)" />
-  <text x="236" y="225" fill="#89b4fa" font-size="9" font-weight="600" transform="rotate(-65 236 225)">Proxy :3000</text>
+  <rect x="594" y="364" width="190" height="38" rx="6" fill="#1e1e2e" stroke="#45475a" />
+  <text x="689" y="381" text-anchor="middle" fill="#cdd6f4" font-size="10.5" font-weight="700">HabitRepository</text>
+  <text x="689" y="395" text-anchor="middle" fill="#a6adc8" font-size="9">Postgres &amp; InMemory Impl</text>
 
-  <line x1="497" y1="184" x2="497" y2="202" stroke="#cba6f7" stroke-width="1.8" marker-end="url(#arrow-mauve)" />
-  <line x1="497" y1="274" x2="497" y2="292" stroke="#a6e3a1" stroke-width="1.8" marker-end="url(#arrow-green)" />
-  <line x1="362" y1="274" x2="362" y2="404" stroke="#fab387" stroke-width="1.8" marker-end="url(#arrow-peach)" />
+  <rect x="594" y="410" width="190" height="38" rx="6" fill="#1e1e2e" stroke="#45475a" />
+  <text x="689" y="427" text-anchor="middle" fill="#cdd6f4" font-size="10.5" font-weight="700">Drizzle ORM &amp; pg Pool</text>
+  <text x="689" y="441" text-anchor="middle" fill="#a6adc8" font-size="9">SQL Schema &amp; Migrations</text>
 
-  <!-- 4. Data Tier -->
-  <rect x="765" y="365" width="165" height="140" rx="12" fill="#181825" stroke="#94e2d5" stroke-width="1.5" />
-  <text x="847" y="390" text-anchor="middle" fill="#94e2d5" font-size="12" font-weight="700">DATA TIER</text>
-  <rect x="781" y="405" width="133" height="84" rx="8" fill="#313244" stroke="#45475a" stroke-width="1" />
-  <text x="847" y="434" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="700">PostgreSQL 16</text>
-  <text x="847" y="454" text-anchor="middle" fill="#a6adc8" font-size="10">ACID Transactions</text>
-  <text x="847" y="472" text-anchor="middle" fill="#94e2d5" font-size="10" font-weight="600">TCP :5432</text>
+  <rect x="594" y="456" width="190" height="38" rx="6" fill="#1e1e2e" stroke="#45475a" />
+  <text x="689" y="473" text-anchor="middle" fill="#cdd6f4" font-size="10.5" font-weight="700">Demo Data Seeder</text>
+  <text x="689" y="487" text-anchor="middle" fill="#a6adc8" font-size="9">Deterministic 365d PRNG</text>
 
-  <!-- Arrow: Infra -> Postgres -->
-  <line x1="710" y1="450" x2="775" y2="450" stroke="#fab387" stroke-width="2" marker-end="url(#arrow-peach)" />
-  <text x="742" y="442" text-anchor="middle" fill="#fab387" font-size="9" font-weight="600">pg Pool</text>
+  <!-- ===================================================================== -->
+  <!-- 4. DATA TIER (Right)                                                  -->
+  <!-- ===================================================================== -->
+  <rect x="858" y="320" width="154" height="184" rx="12" fill="#181825" stroke="#94e2d5" stroke-width="1.6" />
+  <text x="935" y="346" text-anchor="middle" fill="#94e2d5" font-size="11" font-weight="700" letter-spacing="0.5">
+    DATA TIER
+  </text>
+  <rect x="872" y="364" width="126" height="124" rx="8" fill="#313244" stroke="#45475a" stroke-width="1" />
+  <text x="935" y="400" text-anchor="middle" fill="#cdd6f4" font-size="13" font-weight="700">PostgreSQL 16</text>
+  <text x="935" y="422" text-anchor="middle" fill="#a6adc8" font-size="10">users</text>
+  <text x="935" y="438" text-anchor="middle" fill="#a6adc8" font-size="10">habits</text>
+  <text x="935" y="454" text-anchor="middle" fill="#a6adc8" font-size="10">habit_entries</text>
+  <text x="935" y="474" text-anchor="middle" fill="#94e2d5" font-size="10" font-weight="700">TCP :5432</text>
+
+  <!-- Arrow: API Tier (Infrastructure) -> Data Tier (100% inside corridor x=816..858) -->
+  <line x1="816" y1="412" x2="854" y2="412" stroke="#94e2d5" stroke-width="2.2" marker-end="url(#arrow-teal)" />
+  <text x="835" y="402" text-anchor="middle" fill="#94e2d5" font-size="9.5" font-weight="700">SQL</text>
 </svg>

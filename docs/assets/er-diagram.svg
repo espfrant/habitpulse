@@ -76,34 +76,34 @@
   <text x="495" y="306" fill="#a6adc8" font-size="11">timestamptz</text>
 
   <!-- Table 3: habit_entries -->
-  <rect x="660" y="60" width="232" height="190" rx="10" fill="#181825" stroke="#a6e3a1" stroke-width="1.5" />
-  <rect x="660" y="60" width="232" height="34" rx="10" fill="#313244" />
-  <text x="776" y="82" text-anchor="middle" fill="#a6e3a1" font-size="13" font-weight="700">habit_entries</text>
+  <rect x="652" y="60" width="244" height="190" rx="10" fill="#181825" stroke="#a6e3a1" stroke-width="1.5" />
+  <rect x="652" y="60" width="244" height="34" rx="10" fill="#313244" />
+  <text x="774" y="82" text-anchor="middle" fill="#a6e3a1" font-size="13" font-weight="700">habit_entries</text>
 
-  <text x="674" y="114" fill="#f9e2af" font-size="11" font-weight="700">PK</text>
-  <text x="700" y="114" fill="#cdd6f4" font-size="11" font-weight="600">id</text>
-  <text x="795" y="114" fill="#a6adc8" font-size="11">uuid</text>
+  <text x="666" y="114" fill="#f9e2af" font-size="11" font-weight="700">PK</text>
+  <text x="692" y="114" fill="#cdd6f4" font-size="11" font-weight="600">id</text>
+  <text x="780" y="114" fill="#a6adc8" font-size="11">uuid</text>
 
-  <text x="674" y="138" fill="#fab387" font-size="11" font-weight="700">FK</text>
-  <text x="700" y="138" fill="#cdd6f4" font-size="11">habit_id</text>
-  <text x="795" y="138" fill="#a6adc8" font-size="11">uuid (CASCADE)</text>
+  <text x="666" y="138" fill="#fab387" font-size="11" font-weight="700">FK</text>
+  <text x="692" y="138" fill="#cdd6f4" font-size="11">habit_id</text>
+  <text x="780" y="138" fill="#a6adc8" font-size="11">uuid (CASCADE)</text>
 
-  <text x="674" y="162" fill="#94e2d5" font-size="11" font-weight="700">UK</text>
-  <text x="700" y="162" fill="#cdd6f4" font-size="11">entry_date</text>
-  <text x="795" y="162" fill="#a6adc8" font-size="11">date (YYYY-MM-DD)</text>
+  <text x="666" y="162" fill="#94e2d5" font-size="11" font-weight="700">UK</text>
+  <text x="692" y="162" fill="#cdd6f4" font-size="11">entry_date</text>
+  <text x="780" y="162" fill="#a6adc8" font-size="11">date (YYYY-MM-DD)</text>
 
-  <text x="700" y="186" fill="#cdd6f4" font-size="11">value</text>
-  <text x="795" y="186" fill="#a6adc8" font-size="11">integer</text>
+  <text x="692" y="186" fill="#cdd6f4" font-size="11">value</text>
+  <text x="780" y="186" fill="#a6adc8" font-size="11">integer</text>
 
-  <text x="700" y="210" fill="#cdd6f4" font-size="11">updated_at</text>
-  <text x="795" y="210" fill="#a6adc8" font-size="11">timestamptz</text>
+  <text x="692" y="210" fill="#cdd6f4" font-size="11">updated_at</text>
+  <text x="780" y="210" fill="#a6adc8" font-size="11">timestamptz</text>
 
-  <text x="776" y="236" text-anchor="middle" fill="#94e2d5" font-size="10">UNIQUE (habit_id, entry_date)</text>
+  <text x="774" y="236" text-anchor="middle" fill="#94e2d5" font-size="10">UNIQUE (habit_id, entry_date)</text>
 
   <!-- Relationship Lines -->
   <line x1="273" y1="125" x2="332" y2="125" stroke="#cba6f7" stroke-width="2" marker-end="url(#er-crow)" />
   <text x="303" y="116" text-anchor="middle" fill="#cba6f7" font-size="10" font-weight="600">1 : N</text>
 
-  <line x1="600" y1="135" x2="657" y2="135" stroke="#cba6f7" stroke-width="2" marker-end="url(#er-crow)" />
-  <text x="628" y="126" text-anchor="middle" fill="#cba6f7" font-size="10" font-weight="600">1 : N</text>
+  <line x1="600" y1="135" x2="649" y2="135" stroke="#cba6f7" stroke-width="2" marker-end="url(#er-crow)" />
+  <text x="625" y="126" text-anchor="middle" fill="#cba6f7" font-size="10" font-weight="600">1 : N</text>
 </svg>
